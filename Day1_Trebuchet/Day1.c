@@ -245,6 +245,7 @@ int main(){
 
 
 	fclose(fptr);
-	
+	fclose(fptr2);
+
 	return 0;
 }
