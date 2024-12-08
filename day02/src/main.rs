@@ -4,25 +4,6 @@ use itertools::Itertools;
 
 /*
 *
-               for index in 0..levels.len() {
-                   let mut new_levels = levels.clone();
-                   new_levels.remove(index);
-                   println!("new_levels: {:?}", new_levels);
-                   let mut new_safe: bool = true;
-                   for (a, b) in new_levels.iter().tuple_windows() {
-                       let new_diff = b - a;
-                       if new_diff <= 0 || new_diff > 3 {
-                           new_safe = false;
-                           println!("new_false: {} - {} = {}", a, b, new_diff);
-                       }
-                   }
-                   if new_safe {
-                       result += 1;
-                       println!("new_safe");
-                       break;
-                   }
-                   
-               }
 */
 
 fn safety(levels: Vec<usize>) -> bool {
@@ -85,7 +66,19 @@ fn main() -> std::io::Result<()> {
             .collect::<Vec<_>>();
         println!("{:?}", levels);
 
-        if safety(levels) { result += 1; }
+        if safety(levels.clone()) { 
+            result += 1; 
+        } else { // Problem Dampener
+            for index in 0..levels.len() {
+                let mut new_levels = levels.clone();
+                new_levels.remove(index);
+                println!("new_levels: {:?}", new_levels);
+                if safety(new_levels) {
+                    result += 1;
+                    break;
+                }
+            }
+        }
 
         println!("Result: {}", result);
         println!("");
@@ -94,7 +87,7 @@ fn main() -> std::io::Result<()> {
 
     println!("Result: {}", result);
     // 672 is too high
-    // Result: 
+    // Result: 349
 
     Ok(())
 }
