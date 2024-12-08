@@ -25,7 +25,7 @@ use itertools::Itertools;
                }
 */
 
-fn safety(levels: Vec<_>) -> bool {
+fn safety(levels: Vec<usize>) -> bool {
 
     let increasing = levels.iter().is_sorted();
     let decreasing = levels.iter().is_sorted_by(|a, b| a >= b);
@@ -63,6 +63,7 @@ fn safety(levels: Vec<_>) -> bool {
         }
     } else {
         println!("Mixed");
+        safe = false;
     }
     safe
 }
@@ -70,8 +71,8 @@ fn safety(levels: Vec<_>) -> bool {
 
 fn main() -> std::io::Result<()> {
 
-    let filename = "./example.txt";
-    //let filename = "./input.txt";
+    //let filename = "./example.txt";
+    let filename = "./input.txt";
     let file = File::open(filename)?;
     let buf = BufReader::new(file);
 
