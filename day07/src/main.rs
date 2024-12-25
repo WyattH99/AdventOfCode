@@ -1,6 +1,5 @@
 use std::fs;
 
-
 fn main() {
     //let data = fs::read_to_string("example.txt").unwrap();
     let data = fs::read_to_string("input.txt").unwrap();
@@ -11,12 +10,15 @@ fn main() {
         .map(|line| {
             let mut split = line.split(":");
             let target = split.next().unwrap().parse::<usize>().unwrap();
-            let numbers: Vec<_> = split.next().unwrap()
+            let numbers: Vec<_> = split
+                .next()
+                .unwrap()
                 .split_whitespace()
                 .map(|s| s.parse::<usize>().unwrap())
                 .collect();
             (target, numbers)
-        }).filter(|e| can_solve(e.0, &e.1))
+        })
+        .filter(|e| can_solve(e.0, &e.1))
         .map(|e| e.0)
         .sum();
 
@@ -25,17 +27,18 @@ fn main() {
     // 328790210468594
 }
 
-fn can_solve(target: usize, numbers: &[usize]) -> bool{
+fn can_solve(target: usize, numbers: &[usize]) -> bool {
     let mut results = vec![numbers[0]];
     for number in &numbers[1..] {
-        results = results.iter()
-            .flat_map(|result| 
-                vec![ 
-                    result * number, 
-                    result + number, 
-                    format!("{}{}", result, number).parse::<usize>().unwrap()
+        results = results
+            .iter()
+            .flat_map(|result| {
+                vec![
+                    result * number,
+                    result + number,
+                    format!("{}{}", result, number).parse::<usize>().unwrap(),
                 ]
-            )
+            })
             .collect();
     }
     results.iter().any(|&result| result == target)
